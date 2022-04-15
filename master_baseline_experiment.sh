@@ -17,7 +17,7 @@ for loss in "${!assArray1[@]}"; do
     cd baseline-experiment-$loss
     for param in ${assArray1[$loss]}; do
         echo $param
-        sbatch baseline_resnet18_imbalance_experiment.sh $loss $param
+        sbatch --output="baseline_$loss_$param.out" baseline_resnet18_imbalance_experiment.sh $loss $param 
     done
     cd ..
 done
