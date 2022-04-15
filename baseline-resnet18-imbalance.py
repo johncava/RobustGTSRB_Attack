@@ -135,7 +135,10 @@ for i, (x,y) in tqdm(enumerate(test_dataset)):
         acc += 1
 print('Baseline Accuracy: ' + str(float(acc/len(test_dataset))))
 
-from sklearn.metrics import confusion_matrix
+from sklearn.metrics import confusion_matrix, f1_score
+
+f1_score = sklearn.metrics.f1_score(true, predictions, average='binary')
+print('Baseline F1 Score: ' + str(f1_score))
 
 import seaborn as sns
 
@@ -175,6 +178,9 @@ for i, (x,y) in tqdm(enumerate(test_dataset)):
     if pred == y.item():
         adv_acc += 1
 print('Adversarial Attack Accuracy: ' + str(float(adv_acc/len(test_dataset))))
+
+f1_score = sklearn.metrics.f1_score(true, predictions, average='binary')
+print('Adversarial Attack F1 Score: ' + str(f1_score))
 
 plt.figure()
 cf_matrix = confusion_matrix(true, predictions)
