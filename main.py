@@ -8,6 +8,7 @@ import torchvision
 import torchvision.models as models
 import PIL
 
+import sklearn
 ##
 # Argparse
 ##
@@ -158,11 +159,10 @@ for i, (x,y) in tqdm(enumerate(test_dataset)):
         acc += 1
 print('Adversarial Training Accuracy: ' + str(float(acc/len(test_dataset))))
 
+from sklearn.metrics import confusion_matrix
+
 f1_score = sklearn.metrics.f1_score(true, predictions, average='binary')
 print('Adversarial Training F1 Score: ' + str(f1_score))
-
-
-from sklearn.metrics import confusion_matrix
 
 import seaborn as sns
 
