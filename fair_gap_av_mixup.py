@@ -13,6 +13,7 @@ import torchvision
 import torchvision.models as models
 import PIL
 
+import sklearn
 ##
 # Argparse
 ##
@@ -179,7 +180,7 @@ for epoch in range(max_epochs):
 ##
 plt.figure()
 plt.plot(list(range(len(loss_iteration))), loss_iteration)
-plt.savefig('fair_gap_adv_mixup_resnet18_imbalance_loss.png')
+plt.savefig('fair_gap_adv_mixup_resnet18_imbalance_losss-'+str(args.loss)+'-'+str(args.param)+'.png')
 
 ###
 # AT Testing
@@ -204,6 +205,9 @@ print('Adversarial Training Accuracy: ' + str(float(acc/len(test_dataset))))
 
 from sklearn.metrics import confusion_matrix
 
+f1_score = sklearn.metrics.f1_score(true, predictions, average='binary')
+print('Adversarial Training F1 Score: ' + str(f1_score))
+
 import seaborn as sns
 
 plt.figure()
@@ -220,7 +224,7 @@ ax.xaxis.set_ticklabels(['Minority','Majority'])
 ax.yaxis.set_ticklabels(['Minority','Majoirty'])
 
 ## Display the visualization of the Confusion Matrix.
-plt.savefig('fair-gap-adv-mixup-confusion-matrix.png')
+plt.savefig('fair-gap-adv-mixup-confusion-matrixs-'+str(args.loss)+'-'+str(args.param)+'.png')
 
 criterion = nn.CrossEntropyLoss()
 adversary = GradientSignAttack(model, loss_fn=criterion, eps=0.3, clip_min=0.0, clip_max=1.0, targeted=False)
@@ -241,6 +245,9 @@ for i, (x,y) in tqdm(enumerate(test_dataset)):
         adv_acc += 1
 print('Adversarial Attack Accuracy: ' + str(float(adv_acc/len(test_dataset))))
 
+f1_score = sklearn.metrics.f1_score(true, predictions, average='binary')
+print('Adversarial Attack F1 Score: ' + str(f1_score))
+
 plt.figure()
 cf_matrix = confusion_matrix(true, predictions)
 ax = sns.heatmap(cf_matrix, annot=True, cmap='Blues', fmt='.5f')
@@ -254,6 +261,6 @@ ax.xaxis.set_ticklabels(['Minority','Majority'])
 ax.yaxis.set_ticklabels(['Minority','Majoirty'])
 
 ## Display the visualization of the Confusion Matrix.
-plt.savefig('fair-gap-adv-mixup-adversarial-attack-confusion-matrix.png')
+plt.savefig('fair-gap-adv-mixup-adversarial-attack-confusion-matrixs-'+str(args.loss)+'-'+str(args.param)+'.png')
 
 print('Done')

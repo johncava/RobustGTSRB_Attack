@@ -12,6 +12,7 @@ import torchvision
 import torchvision.models as models
 import PIL
 
+import sklearn
 ##
 # Argparse
 ##
@@ -157,7 +158,7 @@ for epoch in range(max_epochs):
 ##
 plt.figure()
 plt.plot(list(range(len(loss_iteration))), loss_iteration)
-plt.savefig('adv_mixup_resnet18_imbalance_loss.png')
+plt.savefig('adv_mixup_resnet18_imbalance_loss-'+str(args.loss)+'-'+str(args.param)+'.png')
 
 ###
 # AT Testing
@@ -180,7 +181,7 @@ for i, (x,y) in tqdm(enumerate(test_dataset)):
         acc += 1
 print('Adversarial Training Accuracy: ' + str(float(acc/len(test_dataset))))
 
-from sklearn.metrics import confusion_matrix, f1_score
+from sklearn.metrics import confusion_matrix
 
 f1_score = sklearn.metrics.f1_score(true, predictions, average='binary')
 print('Adversarial Training F1 Score: ' + str(f1_score))
@@ -200,7 +201,7 @@ ax.xaxis.set_ticklabels(['Minority','Majority'])
 ax.yaxis.set_ticklabels(['Minority','Majoirty'])
 
 ## Display the visualization of the Confusion Matrix.
-plt.savefig('adv-mixup-confusion-matrix.png')
+plt.savefig('adv-mixup-confusion-matrix-'+str(args.loss)+'-'+str(args.param)+'.png')
 
 criterion = nn.CrossEntropyLoss()
 adversary = GradientSignAttack(model, loss_fn=criterion, eps=0.3, clip_min=0.0, clip_max=1.0, targeted=False)
@@ -237,5 +238,5 @@ ax.xaxis.set_ticklabels(['Minority','Majority'])
 ax.yaxis.set_ticklabels(['Minority','Majoirty'])
 
 ## Display the visualization of the Confusion Matrix.
-plt.savefig('adv-mixup-adversarial-attack-confusion-matrix.png')
+plt.savefig('adv-mixup-adversarial-attack-confusion-matrix-'+str(args.loss)+'-'+str(args.param)+'.png')
 print('Done')
