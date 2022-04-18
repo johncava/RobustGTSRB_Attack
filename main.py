@@ -81,8 +81,8 @@ elif args.loss == 'ALPHA':
 elif args.loss == 'FOCAL':
     criterion = FocalLoss(params={'gamma' : float(args.param)})
 
-from advertorch.attacks import GradientSignAttack
-adversary = GradientSignAttack(model, loss_fn=criterion, eps=0.3, clip_min=0.0, clip_max=1.0, targeted=False)
+from advertorch.attacks import LinfPGDAttack
+adversary = LinfPGDAttack(model, loss_fn=criterion, eps=0.3, nb_iter=40, eps_iter=0.01, rand_init=True, clip_min=0.0, clip_max=1.0, targeted=False)
 
 import torch.optim as optim
 optimizer = optim.Adam(model.parameters(), lr=1e-3)
