@@ -13,5 +13,5 @@
 #SBATCH --mail-user=jcava@asu.edu # Mail-to address
 
 source activate ~/.conda/envs/pytorch-1.8-gpu/
-python main.py --loss $1 --param $2
+python main.py --loss $1 --param $2 --attack $3
 conda deactivate

@@ -16,7 +16,7 @@ import argparse
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--loss')
 parser.add_argument('--param')
-
+parser.add_argument('--attack')
 args = parser.parse_args()
 ##
 # Seed
@@ -81,8 +81,12 @@ elif args.loss == 'ALPHA':
 elif args.loss == 'FOCAL':
     criterion = FocalLoss(params={'gamma' : float(args.param)})
 
-from advertorch.attacks import LinfPGDAttack
-adversary = LinfPGDAttack(model, loss_fn=criterion, eps=0.3, nb_iter=10, eps_iter=0.01, rand_init=True, clip_min=0.0, clip_max=1.0, targeted=False)
+# from advertorch.attacks import LinfPGDAttack
+from advertorch.attacks import GradientSignAttack
+
+# adversary = LinfPGDAttack(model, loss_fn=criterion, eps=0.3, nb_iter=10, eps_iter=0.01, rand_init=True, clip_min=0.0, clip_max=1.0, targeted=False)
+adversary = GradientSignAttack(model, loss_fn=criterion, eps=0.3, clip_min=0.0, clip_max=1.0, targeted=False)
+
 
 import torch.optim as optim
 optimizer = optim.Adam(model.parameters(), lr=1e-3)
@@ -183,7 +187,17 @@ ax.yaxis.set_ticklabels(['Minority','Majoirty'])
 plt.savefig('at-confusion-matrix-'+str(args.loss)+'-'+str(args.param)+'.png')
 
 criterion = nn.CrossEntropyLoss()
-adversary = GradientSignAttack(model, loss_fn=criterion, eps=0.3, clip_min=0.0, clip_max=1.0, targeted=False)
+import torchattacks
+
+adversary = None
+attack = args.attack
+if attack == 'FGSM':
+    adversary = GradientSignAttack(model, loss_fn=criterion, eps=0.3, clip_min=0.0, clip_max=1.0, targeted=False)
+if attack == 'Square':
+    adversary = torchattacks.Square(model, norm='Linf', n_queries=50, n_restarts=1, eps=None, p_init=.8, seed=0, verbose=False, targeted=False, loss='margin', resc_schedule=True)
+if attack == 'Pixle':
+    adversary = torchattacks.Pixle(model, x_dimensions=(0.1, 0.2), restarts=100, iteratsion=50)
+    
 adv_acc = 0
 predictions = []
 true = []
