@@ -23,7 +23,7 @@ for attack in $Attacks; do
         cd adv-experiment-$loss
         for param in ${assArray1[$loss]}; do
             echo $param
-            sbatch --output="adv_${loss}_${param}.out" adv_experiment.sh $loss $param
+            sbatch --output="adv_${loss}_${param}.out" adv_experiment.sh $loss $param $attack
         done
         cd ..
     done
