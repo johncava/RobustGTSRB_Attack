@@ -196,7 +196,7 @@ if attack == 'FGSM':
 if attack == 'Square':
     adversary = torchattacks.Square(model, norm='Linf', n_queries=50, n_restarts=1, eps=None, p_init=.8, seed=0, verbose=False, targeted=False, loss='margin', resc_schedule=True)
 if attack == 'Pixle':
-    adversary = torchattacks.Pixle(model, x_dimensions=(0.1, 0.2), restarts=100, iteratsion=50)
+    adversary = torchattacks.Pixle(model, x_dimensions=(0.1, 0.2), restarts=100, max_iterations=50)
     
 adv_acc = 0
 predictions = []
