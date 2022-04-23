@@ -194,17 +194,21 @@ attack = args.attack
 if attack == 'FGSM':
     adversary = GradientSignAttack(model, loss_fn=criterion, eps=0.3, clip_min=0.0, clip_max=1.0, targeted=False)
 if attack == 'Square':
-    adversary = torchattacks.Square(model, norm='Linf', n_queries=50, n_restarts=1, eps=None, p_init=.8, seed=0, verbose=False, targeted=False, loss='margin', resc_schedule=True)
+    adversary = torchattacks.Square(model, norm='Linf', eps=None, n_queries=50, n_restarts=1, p_init=0.8, loss='margin', resc_schedule=True, seed=0, verbose=False)
 if attack == 'Pixle':
     adversary = torchattacks.Pixle(model, x_dimensions=(0.1, 0.2), restarts=100, max_iterations=50)
     
 adv_acc = 0
 predictions = []
 true = []
+adv_untargeted = None
 for i, (x,y) in tqdm(enumerate(test_dataset)):
     x = x.cuda()
     y = y.cuda()
-    adv_untargeted = adversary.perturb(x, y)
+    if attack == 'FGSM':
+        adv_untargeted = adversary.perturb(x, y)
+    else:
+        adv_untargeted = adversary(x,y)
     pred = model(adv_untargeted)
     pred = torch.argmax(pred,dim=1).item()
     # print(pred.item(), y.squeeze(0).item())
