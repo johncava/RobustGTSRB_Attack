@@ -13,5 +13,5 @@
 #SBATCH --mail-user=jcava@asu.edu # Mail-to address
 
 source activate ~/.conda/envs/pytorch-1.8-gpu/
-python fair_av_mixup.py --loss 'CE' --param '1.0'
+python fair_av_mixup.py --loss 'CE' --param '1.0' --attack 'FGSM'
 conda deactivate
