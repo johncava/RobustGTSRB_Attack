@@ -1,10 +1,10 @@
 
 declare -A assArray1
 assArray1[CE]="1.0"
-assArray1[ALPHA]="0.8 0.9 1.1 1.2 1.3 1.4 1.5 2.0 3.0 4.0"
-assArray1[FOCAL]="0.0 0.5 1.0 2.0 5.0"
+assArray1[ALPHA]="1.1"
+assArray1[FOCAL]="1.0"
 
-Attacks="Square Pixle"
+Attacks="Pixle Square"
 
 mkdir adv-imbalance-experiment
 cd adv-imbalance-experiment

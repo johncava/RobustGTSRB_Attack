@@ -194,9 +194,9 @@ attack = args.attack
 if attack == 'FGSM':
     adversary = GradientSignAttack(model, loss_fn=criterion, eps=0.3, clip_min=0.0, clip_max=1.0, targeted=False)
 if attack == 'Square':
-    adversary = torchattacks.Square(model, norm='Linf', eps=None, n_queries=50, n_restarts=1, p_init=0.8, loss='margin', resc_schedule=True, seed=0, verbose=False)
+    adversary = torchattacks.Square(model, norm='Linf', eps=0.3, n_queries=50, n_restarts=1, p_init=0.8, loss='margin', resc_schedule=True, seed=0, verbose=False)
 if attack == 'Pixle':
-    adversary = torchattacks.Pixle(model, x_dimensions=(0.1, 0.2), restarts=100, max_iterations=50)
+    adversary = torchattacks.Pixle(model, x_dimensions=(0.1, 0.2), restarts=50, max_iterations=10)
     
 adv_acc = 0
 predictions = []
