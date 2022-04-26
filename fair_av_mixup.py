@@ -13,6 +13,7 @@ import torchvision
 import torchvision.models as models
 import PIL
 
+import sklearn
 ##
 # Argparse
 ##
