@@ -3,7 +3,7 @@ assArray1[CE]="1.0"
 assArray1[ALPHA]="0.8 0.9 1.1 1.2 1.3 1.4 1.5 2.0 3.0 4.0"
 assArray1[FOCAL]="0.0 0.5 1.0 2.0 5.0"
 
-Attacks="FGSM Square"
+Attacks="FGSM"
 
 mkdir fair-adv-mixup-imbalance-experiment
 cd fair-adv-mixup-imbalance-experiment

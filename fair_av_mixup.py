@@ -196,7 +196,7 @@ for epoch in range(max_epochs):
 ##
 plt.figure()
 plt.plot(list(range(len(loss_iteration))), loss_iteration)
-plt.savefig('fair_adv_mixup_resnet18_imbalance_loss.png')
+plt.savefig('fair_adv_mixup_resnet18_imbalance_loss-'+str(args.loss)+'-'+str(args.param)+'.png')
 
 ###
 # AT Testing
@@ -240,7 +240,7 @@ ax.xaxis.set_ticklabels(['Minority','Majority'])
 ax.yaxis.set_ticklabels(['Minority','Majoirty'])
 
 ## Display the visualization of the Confusion Matrix.
-plt.savefig('fair-adv-mixup-confusion-matrix.png')
+plt.savefig('fair-adv-mixup-confusion-matrix-'+str(args.loss)+'-'+str(args.param)+'.png')
 
 criterion = nn.CrossEntropyLoss()
 import torchattacks
@@ -291,6 +291,6 @@ ax.xaxis.set_ticklabels(['Minority','Majority'])
 ax.yaxis.set_ticklabels(['Minority','Majoirty'])
 
 ## Display the visualization of the Confusion Matrix.
-plt.savefig('fair-adv-mixup-adversarial-attack-confusion-matrix.png')
+plt.savefig('fair-adv-mixup-adversarial-attack-confusion-matrix-'+str(args.loss)+'-'+str(args.param)+'.png')
 
 print('Done')

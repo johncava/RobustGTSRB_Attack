@@ -51,7 +51,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 print('Fair ADVERSARIAL MIXUP')
-model = models.resnet18(pretrained=True)
+model = models.resnet18(pretrained=False)
 num_ftrs = model.fc.in_features
 model.fc = nn.Linear(num_ftrs, 2)
 
